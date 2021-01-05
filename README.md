@@ -12,4 +12,4 @@ This is basically just `helloworld`, now.
 - add VFS to store downloaded files & add vfs file management commands
 - add a way to inject initial VFS & config (like zip at end of binary)
 - add advanced target commands (load this dll, do stuff with it, etc)
-- mmake manager a DLL, and wrap it with lua (and other languages) via FFI
+- make manager a DLL, and wrap it with lua (and other languages) via FFI
