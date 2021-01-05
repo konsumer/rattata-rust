@@ -1,8 +1,5 @@
 NAME=rattata
 
-CC=/opt/osxcross/target/bin/o64-clang
-CXX=/opt/osxcross/target/bin/o64-clang++
-
 .PHONY: help clean manager target
 
 help: ## show this help
