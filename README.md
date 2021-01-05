@@ -15,3 +15,4 @@ This is basically just `helloworld`, now.
 - make manager a DLL, and wrap it with lua (and other languages) via FFI
 - runtime perisitance & hiding
 - build for OSX
+- simplify cross-compiling for windows, osx, pi, etc & offer pre-compiled (in CI) releases
