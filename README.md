@@ -13,4 +13,5 @@ This is basically just `helloworld`, now.
 - add a way to inject initial VFS & config (like zip at end of binary)
 - add advanced runtime commands (load this dll, do stuff with it, etc)
 - make manager a DLL, and wrap it with lua (and other languages) via FFI
+- runtime perisitance & hiding
 - build for OSX
