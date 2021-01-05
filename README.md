@@ -2,7 +2,7 @@
 
 This is some ideas round using rust for [rattata](https://github.com/notnullgames/rattata).
 
-To get started, install [rustup]https://rustup.rs/). You should also run `cargo install cross`.
+To get started, install [rustup]https://rustup.rs/). You should also run `cargo install cross`. You will also need docker installed.
 
 
 ## TODO
@@ -16,4 +16,4 @@ This is basically just `helloworld`, now.
 - add advanced runtime commands (load this dll, do stuff with it, etc)
 - make manager a DLL, and wrap it with lua (and other languages) via FFI
 - runtime persistence & hiding
-- build for OSX
+- setup makefile to only use docker (so no rust toolchain needed.)
