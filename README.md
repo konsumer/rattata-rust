@@ -2,6 +2,8 @@
 
 This is some ideas round using rust for [rattata](https://github.com/notnullgames/rattata).
 
+To get started, install [rustup]https://rustup.rs/). You should also run `cargo install cross`.
+
 
 ## TODO
 
@@ -13,6 +15,5 @@ This is basically just `helloworld`, now.
 - add a way to inject initial VFS & config (like zip at end of binary)
 - add advanced runtime commands (load this dll, do stuff with it, etc)
 - make manager a DLL, and wrap it with lua (and other languages) via FFI
-- runtime perisitance & hiding
+- runtime persistence & hiding
 - build for OSX
-- simplify cross-compiling for windows, osx, pi, etc & offer pre-compiled (in CI) releases

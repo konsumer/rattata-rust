@@ -15,6 +15,13 @@ clean: ## delete all output files
 	cargo clean
 
 build: ## build runtime files in target/
-	cargo build --all --release --target=x86_64-unknown-linux-gnu
-	cargo build --all --release --target=x86_64-pc-windows-gnu
-#	cargo build --all --release --target=x86_64-apple-darwin
+	# desktop linux
+	cross build --all --release --target=x86_64-unknown-linux-gnu
+	# windows
+	cross build --all --release --target=x86_64-pc-windows-gnu
+	# mac
+	cross build --all --release --target=x86_64-apple-darwin
+	# pi 0/1
+	cross build --all --release --target=arm-unknown-linux-gnueabihf
+	# pi 2/3/4
+	cross build --all --release --target=armv7-unknown-linux-gnueabihf
