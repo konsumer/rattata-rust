@@ -17,3 +17,5 @@ name = "runtime"
 path = "src/runtime/main.rs"
 
 [dependencies]
+libtor = "44.6.1+0.4.4.6"
+dirs = "3.0"
