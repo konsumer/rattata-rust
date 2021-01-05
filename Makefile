@@ -15,6 +15,8 @@ clean: ## delete all output files
 	cargo clean
 
 build: ## build runtime files in target/
+	# whatever is local
+	cargo build --all --release
 	# desktop linux
 	cross build --all --release --target=x86_64-unknown-linux-gnu
 	# windows

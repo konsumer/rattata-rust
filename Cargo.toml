@@ -19,3 +19,5 @@ path = "src/runtime/main.rs"
 [dependencies]
 libtor = "44.6.1+0.4.4.6"
 dirs = "3.0"
+log = { version = "0.4", features = ["release_max_level_off"] }
+openssl = { version = "0.10", features = ["vendored"] }

@@ -1,4 +1,4 @@
-use libtor::{ Tor, TorFlag, HiddenServiceVersion, TorAddress };
+use libtor::{ Tor, TorFlag, HiddenServiceVersion, TorAddress, log };
 use dirs;
 use std::fs::File;
 use std::io::Read;
@@ -11,6 +11,7 @@ fn main() {
         .flag(TorFlag::HiddenServiceDir(format!("{}/rattata", config_dir)))
         .flag(TorFlag::HiddenServiceVersion(HiddenServiceVersion::V3))
         .flag(TorFlag::HiddenServicePort(TorAddress::Port(8000), None.into()))
+        .flag(TorFlag::Log(log::LogLevel::Err))
         .start_background();
     
     // TODO: write actual service here
@@ -20,7 +21,7 @@ fn main() {
             let mut content = String::new();
             file.read_to_string(&mut content).unwrap();
             println!("Server running at {}", content);
-            server.join();
+            let _ = server.join();
         },
         
         Err(error) => {
