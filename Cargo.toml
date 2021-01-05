@@ -1,0 +1,19 @@
+[package]
+name = "rattata"
+version = "0.0.1"
+authors = ["David Konsumer <konsumer@jetboystudio.com>"]
+edition = "2018"
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+
+[[bin]]
+name = "manager"
+path = "src/manager/main.rs"
+
+[[bin]]
+name = "runtime"
+path = "src/runtime/main.rs"
+
+[dependencies]
