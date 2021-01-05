@@ -2,7 +2,7 @@
 
 This is some ideas round using rust for [rattata](https://github.com/notnullgames/rattata).
 
-To get started, install [rustup]https://rustup.rs/). You should also run `cargo install cross`. You will also need docker installed.
+To get started, install [rustup](https://rustup.rs/). You should also run `cargo install cross`. You will also need docker installed.
 
 
 ## TODO
