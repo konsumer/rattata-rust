@@ -37,8 +37,9 @@ fn rattata_hostname() -> String {
 
 fn main() {
     let server = rattata_start(8000);
-    sleep(Duration::from_millis(1000));
+    sleep(Duration::from_millis(100));
+    println!("Files in {}", rattata_location());
     let hostname = rattata_hostname();
-    println!("Server running at {}", &hostname);
+    println!("Server running at {}", hostname);
     let _ = server.join();
 }
