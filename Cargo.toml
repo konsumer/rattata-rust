@@ -11,6 +11,7 @@ autobenches = false
 [lib]
 name = "rattata"
 path = "src/manager/rattata.rs"
+crate-type = ["cdylib"]
 
 [[bin]]
 name = "manager"

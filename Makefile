@@ -1,6 +1,6 @@
 NAME=rattata
 
-.PHONY: help clean manager target ffitest
+.PHONY: help clean manager target ffi wrapper
 
 help: ## show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -14,13 +14,15 @@ runtime: ## run rattata target runtime
 clean: ## delete all output files
 	cargo clean
 
-build: ## build runtime files in target/
+header: ## build header file
+	mkdir -p target
+	cbindgen . -o target/rattata.h --lang C
+
+build: header ## build runtime files in target/
 	# whatever is local
 	cargo build --bins --lib --release
-	# build header file
-	cbindgen . -o target/rattata.h
 
-cross: ## build runtime files for all supported platforms in target/
+cross: header ## build runtime files for all supported platforms in target/
 	# desktop linux
 	cross build --bins --lib --release --target=x86_64-unknown-linux-gnu
 	# windows
@@ -31,8 +33,6 @@ cross: ## build runtime files for all supported platforms in target/
 	cross build --bins --lib --release --target=arm-unknown-linux-gnueabihf
 	# pi 2/3/4
 	cross build --bins --lib --release --target=armv7-unknown-linux-gnueabihf
-	# build header file
-	cbindgen . -o target/rattata.h
 
-ffi: build ## test that ffi works using src/test.lua
-	cp src/test.lua target/release && luajit target/release/test.lua
+ffi: build ## test lua ffi wrappers
+	cp src/*.lua target/release/ && LD_LIBRARY_PATH=target/release/ luajit target/release/test.lua
