@@ -8,6 +8,10 @@ autoexamples = false
 autotests = false
 autobenches = false
 
+[lib]
+name = "rattata"
+path = "src/manager/rattata.rs"
+
 [[bin]]
 name = "manager"
 path = "src/manager/main.rs"
@@ -21,3 +25,6 @@ libtor = "44.6.1"
 dirs = "3.0"
 log = { version = "0.4", features = ["release_max_level_off"] }
 openssl = { version = "0.10", features = ["vendored"] }
+
+[dev-dependencies]
+cbindgen = "0.16.0"

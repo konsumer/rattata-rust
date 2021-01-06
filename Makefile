@@ -17,6 +17,8 @@ clean: ## delete all output files
 build: ## build runtime files in target/
 	# whatever is local
 	cargo build --bins --lib --release
+	# build header file
+	cbindgen . -o target/rattata.h
 
 cross: ## build runtime files for all supported platforms in target/
 	# desktop linux
@@ -29,6 +31,8 @@ cross: ## build runtime files for all supported platforms in target/
 	cross build --bins --lib --release --target=arm-unknown-linux-gnueabihf
 	# pi 2/3/4
 	cross build --bins --lib --release --target=armv7-unknown-linux-gnueabihf
+	# build header file
+	cbindgen . -o target/rattata.h
 
 ffi: build ## test that ffi works using src/test.lua
 	cp src/test.lua target/release && luajit target/release/test.lua
