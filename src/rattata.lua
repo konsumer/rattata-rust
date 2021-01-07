@@ -7,11 +7,6 @@ ffi.cdef[[
   const int8_t *ffi_hostname(void);
 ]]
 
--- simple right-pad string fucntion
-local function rpad (s, l, c)
-  return s .. string.rep(c or ' ', l - #s)
-end
-
 local rattata = {}
 
 -- get the current setings dir (which has tor stuff in it)
@@ -29,7 +24,8 @@ function rattata:runtime(runtime_filename)
   local fin = io.open(runtime_filename, "rb")
   local contents = fin:read("*all")
   fin:close()
-  return contents:gsub("ONION_ADDRESS........................................................", "ONION_ADDRESS" .. rpad(rattata:hostname(), 56, " "))
+  local c = contents:gsub("ONION_ADDRESS........................................................", string.format("ONION_ADDRESS%-56s", rattata:hostname()))
+  return c
 end
 
 return rattata
