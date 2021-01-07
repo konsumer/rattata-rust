@@ -8,12 +8,12 @@ use std::ffi::CString;
 // FFI/C interface
 
 #[no_mangle]
-pub extern "C" fn rattata_location() -> *const i8 {
+pub extern "C" fn ffi_location() -> *const i8 {
     return CString::new(location()).unwrap().into_raw();
 }
 
 #[no_mangle]
-pub extern "C" fn rattata_hostname() -> *const i8 {
+pub extern "C" fn ffi_hostname() -> *const i8 {
     return  CString::new(hostname()).unwrap().into_raw();
 }
 
