@@ -20,13 +20,8 @@ function rattata:hostname()
 end
 
 -- given a platform, get the target runtime for current manager instance
--- assumes runmtime is in runtimes/PLATFORM/runtime
-function rattata:runtime(platform)
-  local file = "runtimes/" .. platform .. "/runtime"
-  if platform == "x86_64-pc-windows-gnu" then
-    file = file .. ".exe"
-  end
-  local fin = io.open(file, "rb")
+function rattata:runtime(runtime_filename)
+  local fin = io.open(runtime_filename, "rb")
   local contents = fin:read("*all")
   fin:close()
   -- TODO: should properly pad address with spaces?
