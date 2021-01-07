@@ -29,3 +29,4 @@ openssl = { version = "0.10", features = ["vendored"] }
 
 [dev-dependencies]
 cbindgen = "0.16.0"
+cross = "0.2.1"
