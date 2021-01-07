@@ -19,7 +19,7 @@ function rattata:hostname()
   return ffi.string(f_rattata.ffi_hostname())
 end
 
--- given a platform, get the target runtime for current manager instance
+-- given a platform's target runtime filename path, get the target runtime (as a string) for current manager instance
 function rattata:runtime(runtime_filename)
   local fin = io.open(runtime_filename, "rb")
   local contents = fin:read("*all")
