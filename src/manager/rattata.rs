@@ -7,11 +7,25 @@ use std::ffi::CString;
 
 // FFI/C interface
 
+#[cfg(target_pointer_width = "32")]
+#[no_mangle]
+pub extern "C" fn ffi_location() -> *const u8 {
+    return CString::new(location()).unwrap().into_raw();
+}
+
+#[cfg(target_pointer_width = "32")]
+#[no_mangle]
+pub extern "C" fn ffi_hostname() -> *const u8 {
+    return  CString::new(hostname()).unwrap().into_raw();
+}
+
+#[cfg(target_pointer_width = "64")]
 #[no_mangle]
 pub extern "C" fn ffi_location() -> *const i8 {
     return CString::new(location()).unwrap().into_raw();
 }
 
+#[cfg(target_pointer_width = "64")]
 #[no_mangle]
 pub extern "C" fn ffi_hostname() -> *const i8 {
     return  CString::new(hostname()).unwrap().into_raw();

@@ -17,6 +17,5 @@ This is basically just `helloworld`, now.
 - add VFS to store downloaded files & add vfs file management commands (`ls`, `rm`, `cat`) - maybe no dirs, just flat location
 - add a way to inject initial VFS & config (like zip at end of binary)
 - add advanced runtime commands (load this dll, do stuff with it, etc)
-- make manager a DLL, and wrap it with lua (and other languages) via FFI
 - runtime persistence & hiding
 - setup makefile to only use docker (so no rust toolchain needed.)
