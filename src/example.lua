@@ -3,15 +3,9 @@ package.path = string.match(arg[0], '^(.-)[^/\\]*$') .. '/?.lua;' .. package.pat
 
 local rattata = require('rattata')
 
--- ugh http://lua-users.org/wiki/SleepFunction
-local function sleep(s)
-  local ntime = os.time() + s
-  repeat until os.time() > ntime
-end
+local port = rattata:choose_port()
 
-print("Server Location: " .. rattata:location())
+-- TODO: this will fail if this is the first time running the server
+print(string.format("Server running on %s:%d", rattata:hostname(), port))
 
--- this will fail if the tor server has never been run, needs server to run in thread then return in a little while
-print("Server address: " .. rattata:hostname())
-
-rattata:start(8000)
+rattata:start(port)

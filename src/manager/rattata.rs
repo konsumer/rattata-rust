@@ -6,6 +6,7 @@ use std::ffi::CString;
 use std::net::{ TcpListener, TcpStream, SocketAddr };
 use std::thread::{ spawn, JoinHandle };
 use std::fmt::{ format };
+use portpicker::pick_unused_port;
 
 // this makes write work on socket
 #[allow(unused)] use std::io::prelude::*;
@@ -37,9 +38,15 @@ pub extern "C" fn ffi_hostname() -> *const i8 {
 }
 
 #[no_mangle]
-pub extern "C" fn ffi_start(port: u16) {
-    let (_socket, tor) = start(port);
+pub extern "C" fn ffi_start(port: u16) -> u16 {
+    let (_socket, tor, setport) = start(port);
     let _ = tor.join();
+    return setport;
+}
+
+#[no_mangle]
+pub extern "C" fn ffi_choose_port() -> u16 {
+    return pick_unused_port().unwrap();
 }
 
 /// get the current setings dir (which has tor stuff in it)
@@ -56,7 +63,10 @@ fn handle_client(mut stream: TcpStream) {
 }
 
 /// start a tor server & the local service connected to it
-pub fn start(port: u16) -> (JoinHandle<()>, JoinHandle<Result<u8, Error>>) {
+pub fn start(mut port: u16) -> (JoinHandle<()>, JoinHandle<Result<u8, Error>>, u16) {
+    if port == 0 {
+        port = pick_unused_port().unwrap();
+    }
     let tor = Tor::new()
         .flag(TorFlag::SocksPort(0))
         .flag(TorFlag::HiddenServiceDir(location()))
@@ -73,7 +83,7 @@ pub fn start(port: u16) -> (JoinHandle<()>, JoinHandle<Result<u8, Error>>) {
         }
     });
 
-    return (socket, tor);
+    return (socket, tor, port);
 }
 
 /// get the current onion-hostname from running tor-server

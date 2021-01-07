@@ -5,7 +5,8 @@ local f_rattata = ffi.load("rattata")
 ffi.cdef[[
   const int8_t* ffi_location(void);
   const int8_t* ffi_hostname(void);
-  void ffi_start(int16_t port);
+  const int16_t ffi_start(int16_t port);
+  const int16_t ffi_choose_port();
 ]]
 
 -- get a uuid
@@ -31,8 +32,14 @@ end
 
 -- start a tor server & the local service connected to it
 function rattata:start(port)
-  f_rattata.ffi_start(port)
+  return f_rattata.ffi_start(port)
 end
+
+-- choose a free port
+function rattata:choose_port()
+  return f_rattata.ffi_choose_port()
+end
+
 
 -- given a platform's target runtime filename path, get the target runtime (as a string) for current manager instance
 function rattata:runtime(runtime_filename)
