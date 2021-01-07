@@ -3,8 +3,9 @@ local ffi = require("ffi")
 local f_rattata = ffi.load("rattata")
 
 ffi.cdef[[
-  const int8_t *ffi_location(void);
-  const int8_t *ffi_hostname(void);
+  const int8_t* ffi_location(void);
+  const int8_t* ffi_hostname(void);
+  void ffi_start(int16_t port);
 ]]
 
 local rattata = {}
@@ -17,6 +18,11 @@ end
 -- get the current onion-hostname from running tor-server
 function rattata:hostname()
   return ffi.string(f_rattata.ffi_hostname())
+end
+
+-- start a tor server & the local service connected to it
+function rattata:start(port)
+  f_rattata.ffi_start(port)
 end
 
 -- given a platform's target runtime filename path, get the target runtime (as a string) for current manager instance

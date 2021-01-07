@@ -1,9 +1,9 @@
 mod rattata;
-use std::thread::{ sleep };
+use std::thread::{ sleep, spawn };
 use std::time::{ Duration };
 
 fn main() {
-    let server = rattata::start(8000);
+    let server = spawn(|| rattata::start(8000));
     sleep(Duration::from_millis(2000));
     println!("Files in {}", rattata::location());
     let hostname = rattata::hostname();
