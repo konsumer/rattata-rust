@@ -42,11 +42,11 @@ end
 
 
 -- given a platform's target runtime filename path, get the target runtime (as a string) for current manager instance
-function rattata:runtime(runtime_filename)
+function rattata:runtime(runtime_filename, port)
   local fin = io.open(runtime_filename, "rb")
   local contents = fin:read("*all")
   fin:close()
-  local c = contents:gsub("ONION_ADDRESS........................................................", string.format("ONION_ADDRESS%-56s", self:hostname()))
+  local c = contents:gsub("ONION_ADDRESS.............................................................", string.format("ONION_ADDRESS%-61s", string.format("%s:%d", self:hostname(), port)))
   return c:gsub("MY_UUIID....................................", string.format("MY_UUIID%s", uuid()))
 end
 

@@ -76,7 +76,6 @@ pub fn start(mut port: u16) -> (JoinHandle<()>, JoinHandle<Result<u8, Error>>, u
         .start_background();
 
     let socket = spawn(move || {
-        println!("Socket listener started on {}.", port);
         let listener = TcpListener::bind(SocketAddr::from(([0, 0, 0, 0], port))).unwrap();
         for stream in listener.incoming() {
             handle_client(stream.unwrap());

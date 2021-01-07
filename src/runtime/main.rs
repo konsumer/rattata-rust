@@ -1,6 +1,6 @@
-// this is 56 bytes, space-padded
+// this is 61 bytes, space-padded
 // it will be changed at deploy-time, look for "ONION_ADDRESS" in binary
-const ONION_ADDRESS: &str = "ONION_ADDRESS                                                        ";
+const ONION_ADDRESS: &str = "ONION_ADDRESS                                                            ";
 
 // this is 36 bytes
 // it will be changed at deploy-time, look for "MY_UUIID" in binary
