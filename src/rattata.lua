@@ -9,12 +9,14 @@ ffi.cdef[[
 
 local rattata = {}
 
-function rattata:hostname()
-  return ffi.string(f_rattata.ffi_hostname())
-end
-
+-- get the current setings dir (which has tor stuff in it)
 function rattata:location()
   return ffi.string(f_rattata.ffi_location())
+end
+
+-- get the current onion-hostname from running tor-server
+function rattata:hostname()
+  return ffi.string(f_rattata.ffi_hostname())
 end
 
 return rattata
