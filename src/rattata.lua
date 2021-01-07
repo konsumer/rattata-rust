@@ -9,8 +9,7 @@ ffi.cdef[[
 
 -- simple right-pad string fucntion
 local function rpad (s, l, c)
-  local res = s .. string.rep(c or ' ', l - #s)
-  return res, res ~= s
+  return s .. string.rep(c or ' ', l - #s)
 end
 
 local rattata = {}
