@@ -7,6 +7,12 @@ ffi.cdef[[
   const int8_t *ffi_hostname(void);
 ]]
 
+-- simple right-pad string fucntion
+local function rpad (s, l, c)
+  local res = s .. string.rep(c or ' ', l - #s)
+  return res, res ~= s
+end
+
 local rattata = {}
 
 -- get the current setings dir (which has tor stuff in it)
@@ -24,8 +30,7 @@ function rattata:runtime(runtime_filename)
   local fin = io.open(runtime_filename, "rb")
   local contents = fin:read("*all")
   fin:close()
-  -- TODO: should properly pad address with spaces?
-  return contents:gsub("ONION_ADDRESS........................................................", "ONION_ADDRESS" .. rattata:hostname() .. "\0")
+  return contents:gsub("ONION_ADDRESS........................................................", "ONION_ADDRESS" .. rpad(rattata:hostname(), 56, " "))
 end
 
 return rattata
