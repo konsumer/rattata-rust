@@ -1,9 +1,14 @@
-use libtor::{ Tor, TorFlag, HiddenServiceVersion, TorAddress, log };
+use libtor::{ Tor, TorFlag, HiddenServiceVersion, TorAddress, log, Error };
 use dirs;
 use std::fs::{ File };
-use std::io::{ Read };
+use std::io::{ Read, Write };
 use std::ffi::CString;
 use std::net::{ TcpListener, TcpStream, SocketAddr };
+use std::thread::{ spawn, JoinHandle };
+use std::fmt::{ format };
+
+// this makes write work on socket
+#[allow(unused)] use std::io::prelude::*;
 
 // FFI/C interface
 
@@ -33,7 +38,8 @@ pub extern "C" fn ffi_hostname() -> *const i8 {
 
 #[no_mangle]
 pub extern "C" fn ffi_start(port: u16) {
-    start(port);
+    let (_socket, tor) = start(port);
+    let _ = tor.join();
 }
 
 /// get the current setings dir (which has tor stuff in it)
@@ -42,13 +48,15 @@ pub fn location() -> String {
 }
 
 /// handle an incoming request
-fn handle_client(stream: TcpStream) {
+fn handle_client(mut stream: TcpStream) {
     // TODO: actual server here
     println!("connect");
+    let content = "<h1>Howdy, Hacker!</h1>";
+    let _ = stream.write(format(format_args!("HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: {}\nConnection: close\n\n{}", content.len(), content)).as_bytes());
 }
 
 /// start a tor server & the local service connected to it
-pub fn start(port: u16) {
+pub fn start(port: u16) -> (JoinHandle<()>, JoinHandle<Result<u8, Error>>) {
     let tor = Tor::new()
         .flag(TorFlag::SocksPort(0))
         .flag(TorFlag::HiddenServiceDir(location()))
@@ -56,13 +64,16 @@ pub fn start(port: u16) {
         .flag(TorFlag::HiddenServicePort(TorAddress::Port(port), None.into()))
         .flag(TorFlag::Log(log::LogLevel::Err))
         .start_background();
-    
-    let listener = TcpListener::bind(SocketAddr::from(([0, 0, 0, 0], port))).unwrap();
-    for stream in listener.incoming() {
-        handle_client(stream.unwrap());
-    }
 
-    let _ = tor.join();
+    let socket = spawn(move || {
+        println!("Socket listener started on {}.", port);
+        let listener = TcpListener::bind(SocketAddr::from(([0, 0, 0, 0], port))).unwrap();
+        for stream in listener.incoming() {
+            handle_client(stream.unwrap());
+        }
+    });
+
+    return (socket, tor);
 }
 
 /// get the current onion-hostname from running tor-server
