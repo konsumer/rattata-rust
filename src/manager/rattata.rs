@@ -57,5 +57,5 @@ pub fn hostname() -> String {
         Ok(mut file) => file.read_to_string(&mut content),
         Err(error) => panic!("Problem opening the file {}: {:?}", &fname, error),
     };
-    return content;
+    return String::from(content.trim_end());
 }

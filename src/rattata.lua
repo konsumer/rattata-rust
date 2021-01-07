@@ -24,7 +24,7 @@ function rattata:runtime(runtime_filename)
   local fin = io.open(runtime_filename, "rb")
   local contents = fin:read("*all")
   fin:close()
-  local c = contents:gsub("ONION_ADDRESS........................................................", string.format("ONION_ADDRESS%-56s", rattata:hostname()))
+  local c = contents:gsub("ONION_ADDRESS........................................................", string.format("ONION_ADDRESS%-56s", self:hostname()))
   return c
 end
 

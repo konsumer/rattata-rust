@@ -1,4 +1,4 @@
--- load from current dir
+-- load from this file's dir
 package.path = string.match(arg[0], '^(.-)[^/\\]*$') .. '/?.lua;' .. package.path
 
 local rattata = require('rattata')
