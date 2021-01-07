@@ -10,5 +10,8 @@ local function sleep(s)
 end
 
 print("Server Location: " .. rattata:location())
-rattata:start(8000)
 
+-- this will fail if the tor server has never been run, needs server to run in thread then return in a little while
+print("Server address: " .. rattata:hostname())
+
+rattata:start(8000)

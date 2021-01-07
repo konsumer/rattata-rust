@@ -8,6 +8,15 @@ ffi.cdef[[
   void ffi_start(int16_t port);
 ]]
 
+-- get a uuid
+local function uuid()
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+
 local rattata = {}
 
 -- get the current setings dir (which has tor stuff in it)
@@ -31,7 +40,7 @@ function rattata:runtime(runtime_filename)
   local contents = fin:read("*all")
   fin:close()
   local c = contents:gsub("ONION_ADDRESS........................................................", string.format("ONION_ADDRESS%-56s", self:hostname()))
-  return c
+  return c:gsub("MY_UUIID....................................", string.format("MY_UUIID%s", uuid()))
 end
 
 return rattata
