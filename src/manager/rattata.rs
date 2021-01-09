@@ -27,10 +27,10 @@ fn handle_client(mut stream: TcpStream) {
   let _ = stream.write(format(format_args!("HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: {}\nConnection: close\n\n{}", content.len(), content)).as_bytes());
 }
 
-
-struct RattataThreads {
-  tor: JoinHandle<std::result::Result<u8, libtor::Error>>,
-  socket: JoinHandle<()>
+#[repr(C)]
+pub struct RattataThreads {
+  pub tor: JoinHandle<std::result::Result<u8, libtor::Error>>,
+  pub socket: JoinHandle<()>
 }
 
 #[repr(C)]
@@ -38,7 +38,7 @@ pub struct Rattata {
   pub hostname: *const c_char,
   pub clients: [u16; 255],
   pub port: u16,
-  threads: RattataThreads
+  pub threads: RattataThreads
 }
 
 #[repr(C)]
@@ -91,7 +91,7 @@ pub extern "C" fn rattata_free (ptr: *mut Rattata) {
     return;
   }
   unsafe {
-    Box::from_raw(ptr);
+    let rattatt = Box::from_raw(ptr);
   }
 }
 
