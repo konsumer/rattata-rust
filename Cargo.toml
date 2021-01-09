@@ -13,15 +13,16 @@ name = "rattata"
 path = "src/manager/rattata.rs"
 crate-type = ["cdylib"]
 
-[[bin]]
-name = "manager"
-path = "src/manager/main.rs"
+# [[bin]]
+# name = "manager"
+# path = "src/manager/main.rs"
 
-[[bin]]
-name = "runtime"
-path = "src/runtime/main.rs"
+# [[bin]]
+# name = "runtime"
+# path = "src/runtime/main.rs"
 
 [dependencies]
+libc = "0.2.82"
 libtor = "44.6.1"
 dirs = "3.0"
 log = { version = "0.4", features = ["release_max_level_off"] }
