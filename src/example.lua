@@ -1,11 +1,9 @@
 -- load from this file's dir
 package.path = string.match(arg[0], '^(.-)[^/\\]*$') .. '/?.lua;' .. package.path
 
-local rattata = require('rattata')
+local Rattata = require('rattata')
 
-local port = rattata:choose_port()
+local rattata = Rattata:new()
 
--- TODO: this will fail if this is the first time running the server
-print(string.format("Server running on %s:%d", rattata:hostname(), port))
+print(string.format("Server running on %s", rattata.info().hostname))
 
-rattata:start(port)
