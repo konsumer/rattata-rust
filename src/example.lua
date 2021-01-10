@@ -3,9 +3,11 @@ package.path = string.match(arg[0], '^(.-)[^/\\]*$') .. '/?.lua;' .. package.pat
 
 local rattata = require('rattata')
 
+-- this can be called any time to get a free port
 local port = rattata:choose_port()
 
--- TODO: this will fail if this is the first time running the server
+-- This will fail if the server has never been started
 print(string.format("Server running on %s:%d", rattata:hostname(), port))
 
+-- this is last because it blocks
 rattata:start(port)
